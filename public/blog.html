@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <!-- Include your CSS file for styling if needed -->
+</head>
+<body>
+    <div class="container">
+        <!-- Image Section -->
+        <div class="image-section">
+            <h2>Image Section</h2>
+            <form id="image-form" action="/upload-image" method="POST" enctype="multipart/form-data">
+                <!-- Display uploaded image here -->
+                <img id="blog-image" src=" " alt="Blog Image" width="200" height="200">
+                <!-- Upload Image Button -->
+                <input type="file" id="image-upload" name="image" accept="image/*">
+                <button type="submit">Upload Image</button>
+            </form>
+        </div>
+
+        <!-- Blog Content Section -->
+        <div class="blog-content">
+            <h2>Blog Content</h2>
+            <form id="blog-form" action="/createblog" method="POST">
+                <input type="text" id="title" name="title" placeholder="Title">
+                <textarea id="blog-text" rows="5" cols="50" name="content" placeholder="Enter your blog content here..."></textarea>
+                <button type="submit">Create Blog</button>
+            </form>
+        </div>
+
+        <!-- Comment Section -->
+      
+    </div>
+
+    <!-- Include your JavaScript file for functionality -->
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Include your CSS file for styling if needed -->
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to Your Profile</h2>
+        <p>Hello, <span id="username"> ${user.username}</span>!</p>
+        <form action="/userprofile" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="*/*">
+            <button type="submit">Upload Image</button>
+        </form>
+          
+        <div id="imagePreview" style="width: 200px; height: 200px;"> <img src="${user.image}" alt="Profile Image" width="200" height="200"></div>
+    </div>
+</body>
+</html>
