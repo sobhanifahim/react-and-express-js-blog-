@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+  </head>
+  <body>
+    <h1>{blogtitle}</h1><br>
+    <i>Author: {author}</i>
+    <p>created at: {date}</p>
+    <form method="POST" action="/readblog/{{author}}/{{blogid}}" name="delete">
+        <input type="hidden" name="formName" value="delete"> <!-- Add this hidden input -->
+        <button type="submit">Delete</button>
+    </form>
+    
+    <p>{blogcontetnt}</p>
+    <form method="POST" action="/readblog/{{auth}}/{{bid}}" name="comments">
+        <input type="hidden" name="formName" value="comments"> <!-- Add this hidden input -->
+        <textarea id="comment" name="comment" rows="4" cols="50" placeholder="Enter your comment here..."></textarea>
+        <button type="submit"> post</button>
+    </form>
+    <div id="show-comments">
+        {{comments}}
+    </div>
+  </body>
+</html>
