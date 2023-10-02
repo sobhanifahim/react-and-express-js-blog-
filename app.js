@@ -109,7 +109,7 @@ app.post('/', (req, res) => {
       res.status(200).json(user);
 
       // Redirect to the home page after successful login
-    
+  
   }
   });
 });
@@ -289,7 +289,10 @@ app.get('/readblog/:author/:blogid', (req, res) => {
           dynamicContent += `
           <ul>
           <li class="blog-post" style="background-color: gainsboro">
+             <div>
+             <i>${post.commenter}</i><br>
               ${post.comments}
+              </div>
             </li>
           </ul>
           `;
@@ -338,7 +341,7 @@ app.post('/readblog/:author/:blogid', (req, res) => {
       const comment = req.body.comment;
       // Insert the comment into the database, associate it with the blog post (using 'blogId')
       // Redirect back to the same blog post or handle as needed
-      db.query('INSERT INTO comments (uid, bid, comments) VALUES (?, ?, ?)', [user.id,blogId,comment], (error, results) => {
+      db.query('INSERT INTO comments (uid, bid,commenter, comments) VALUES (?, ?, ?,?)', [user.id,blogId,user.username,comment], (error, results) => {
         if (error) {
             console.error('Error deleting blog post:', error);
             return res.status(500).json({ message: 'Error deleting blog post.' });
