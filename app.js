@@ -6,19 +6,30 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const cors = require('cors');
+const cookie=require('cookie-parser');
+
+
+
 
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({
+  origin:["http://localhost:3000"],
+  methods: ["POST","GET"],
+  credentials:true
+}));
+app.use(cookie())
 app.use(session({
   secret: 'your-secret-key',
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 3600000 }
 }));
 const db = mysql.createConnection({
   host: 'localhost',
@@ -117,6 +128,12 @@ app.post('/', (req, res) => {
 // Protected route
 app.get('/userprofile', (req, res) => {
   const user = req.session.user;
+  const name=user.username
+  if (!req.session || !req.session.user) {
+    // User is not authenticated, handle this case (e.g., redirect to login)
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  
   if (!user) {
     // User is not authenticated, redirect to the login page
     res.redirect('/');
@@ -140,18 +157,19 @@ app.get('/userprofile', (req, res) => {
       // Create a data URI
       userImageDataUri = `data:image/jpeg;base64,${userImageBase64}`;
     }
+     res.send({name,userImageDataUri})
 
-    // Read the HTML file
-    const fs = require('fs');
-    const profileHtml = fs.readFileSync(path.join(__dirname, 'public', 'profile.html'), 'utf8');
+    // // Read the HTML file
+    // const fs = require('fs');
+    // const profileHtml = fs.readFileSync(path.join(__dirname, 'public', 'profile.html'), 'utf8');
 
-    // Replace the placeholders in the HTML file
-    const updatedHtml = profileHtml
-      .replace('${user.username}', user.username)
-      .replace('${user.image}', userImageDataUri);
+    // // Replace the placeholders in the HTML file
+    // const updatedHtml = profileHtml
+    //   .replace('${user.username}', user.username)
+    //   .replace('${user.image}', userImageDataUri);
 
-    // Send the updated HTML content as the response
-    res.send(updatedHtml);
+    // // Send the updated HTML content as the response
+    // res.send(updatedHtml);
   });
 });
 
@@ -198,35 +216,35 @@ app.get('/home', (req, res) => {
 
     // Assuming 'results' contains an array of blog posts
     const blogPosts = results;
-
+    res.send(blogPosts)
     // Read the 'home.html' file
-    fs.readFile(path.join(__dirname, 'public', 'home.html'), 'utf8', (readError, fileContents) => {
-      if (readError) {
-        console.error('Error reading HTML file', readError);
-        return res.status(500).json({ message: 'Error reading HTML file.' });
-      }
+  //   fs.readFile(path.join(__dirname, 'public', 'home.html'), 'utf8', (readError, fileContents) => {
+  //     if (readError) {
+  //       console.error('Error reading HTML file', readError);
+  //       return res.status(500).json({ message: 'Error reading HTML file.' });
+  //     }
 
-      // Replace placeholders with dynamic data
-      const updatedHtml = fileContents.replace('<!-- Dynamic content goes here -->', () => {
-        let dynamicContent = '';
+  //     // Replace placeholders with dynamic data
+  //     const updatedHtml = fileContents.replace('<!-- Dynamic content goes here -->', () => {
+  //       let dynamicContent = '';
 
-        blogPosts.forEach((post) => {
-          dynamicContent += `
-          <a href="/readblog/${post.author}/${post.bid}">
-          <div class="blog-post" style="background-color: gainsboro">
-              <h3>${post.title}</h3>
-              <p>Author: ${post.author}</p>
-            </div></a>
-          `;
-        });
+  //       blogPosts.forEach((post) => {
+  //         dynamicContent += `
+  //         <a href="/readblog/${post.author}/${post.bid}">
+  //         <div class="blog-post" style="background-color: gainsboro">
+  //             <h3>${post.title}</h3>
+  //             <p>Author: ${post.author}</p>
+  //           </div></a>
+  //         `;
+  //       });
 
-        return dynamicContent;
-      });
+  //       return dynamicContent;
+  //     });
 
-      // Send the updated HTML content as the response
-      res.send(updatedHtml);
-    });
-  });
+  //     // Send the updated HTML content as the response
+  //     res.send(updatedHtml);
+  //   });
+   });
 });
 
 
