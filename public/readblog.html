@@ -6,16 +6,16 @@
   </head>
   <body>
     <h1>{blogtitle}</h1><br>
+    <img src="{user.image}" alt="Profile Image" width="200" height="200"><br>
     <i>Author: {author}</i>
     <p>created at: {date}</p>
-    <form method="POST" action="/readblog/{{author}}/{{blogid}}" name="delete">
-        <input type="hidden" name="formName" value="delete"> <!-- Add this hidden input -->
+    <form method="DELETE" action="/readblog/{{author}}/{{blogid}}" name="delete">
         <button type="submit">Delete</button>
     </form>
     
     <p>{blogcontetnt}</p>
     <form method="POST" action="/readblog/{{auth}}/{{bid}}" name="comments">
-        <input type="hidden" name="formName" value="comments"> <!-- Add this hidden input -->
+        <!-- <input type="hidden" name="formName" value="comments"> Add this hidden input -->
         <textarea id="comment" name="comment" rows="4" cols="50" placeholder="Enter your comment here..."></textarea>
         <button type="submit"> post</button>
     </form>

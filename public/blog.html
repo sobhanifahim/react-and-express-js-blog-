@@ -11,7 +11,8 @@
         <!-- Blog Content Section -->
         <div class="blog-content">
             <h2>Blog Content</h2>
-            <form id="blog-form" action="/createblog" method="POST">
+            <form id="blog-form" action="/createblog" method="POST" enctype="multipart/form-data">
+                <input type="file" id="image" name="image" accept="*/*">
                 <input type="text" id="title" name="title" placeholder="Title">
                 <textarea id="blog-text" rows="5" cols="50" name="content" placeholder="Enter your blog content here..."></textarea>
                 <button type="submit">Create Blog</button>
